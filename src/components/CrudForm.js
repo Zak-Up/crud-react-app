@@ -6,8 +6,16 @@ const initialForm = {
     id: null,
 }
 
-const CrudForm = (createData, updateData, dataToEdit, setDataToEdit) => {
+const CrudForm = ({createData, updateData, dataToEdit, setDataToEdit}) => {
     const [form, setForm] = useState(initialForm);
+
+    useEffect(() => {
+        if(dataToEdit){
+            setForm(dataToEdit);
+        } else {
+            setForm(initialForm);
+        }
+    }, [dataToEdit]);
 
     const handleChange = (e) => {
         setForm({
@@ -25,7 +33,7 @@ const CrudForm = (createData, updateData, dataToEdit, setDataToEdit) => {
         }
 
         if(form.id === null){
-            createData(form);
+            createData(form); 
         } else {
             updateData(form);
         }
@@ -40,7 +48,7 @@ const CrudForm = (createData, updateData, dataToEdit, setDataToEdit) => {
 
     return (
         <div>
-        <h3>Agregar</h3>
+        <h3>{dataToEdit ? "Editar" : "Agregar"}</h3>
         <form onSubmit={handleSubmit}>
             <input 
             type="text" 
@@ -55,7 +63,7 @@ const CrudForm = (createData, updateData, dataToEdit, setDataToEdit) => {
             onChange={handleChange} 
             value={form.constellation}/>
             <input type="submit" value="Enviar"/>
-            <input type="reset" value="Limpiar" onClick={handleReset}/>
+            <input type="reset" value="Limpiar" onClick={handleReset}/> 
         </form>
         
         </div>
